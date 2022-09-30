@@ -1,0 +1,13 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Aller_Bd.ttf",
+      "sha1": "fea5fc8da1056e90c1c7fd1ab7e38d4d04617214"
+    },
+    {
+      "path": "assets/fonts/Aller_Rg.ttf",
+      "sha1": "29c9346851baa424aa0997c904114cef47c3d466"
+    }
+  ]
+}

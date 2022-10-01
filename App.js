@@ -13,7 +13,11 @@ function App() {
 
   function StackScreens() {
     return (
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          animation: 'slide_from_right',
+          animationDuration: 200,
+        }}>
         <Stack.Screen
           name="BottomScreens"
           component={BottomScreens}

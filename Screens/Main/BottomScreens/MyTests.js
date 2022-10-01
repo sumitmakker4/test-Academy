@@ -61,6 +61,10 @@ export default function MyTests() {
       <RenderHeader />
 
       <Animated.FlatList
+        contentContainerStyle={{
+          paddingTop: SIZES.EIGHT,
+          paddingBottom: SIZES.SEVENTY_FIVE + SIZES.TEN,
+        }}
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {y: scrollY}}}],
           {useNativeDriver: true},

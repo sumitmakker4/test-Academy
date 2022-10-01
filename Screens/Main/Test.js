@@ -1,4 +1,11 @@
-import {Animated, Text, TouchableOpacity, View, AppState} from 'react-native';
+import {
+  Animated,
+  Text,
+  TouchableOpacity,
+  View,
+  AppState,
+  BackHandler,
+} from 'react-native';
 import SIZES from '../../MyAssets/SIZES';
 import COLORS from '../../MyAssets/COLORS';
 import DUMMY_DATA from '../../MyAssets/DUMMY_DATA';
@@ -70,7 +77,10 @@ export function Test({navigation}) {
 
   function RenderHeader() {
     return (
-      <View>
+      <View
+        style={{
+          flex: 1,
+        }}>
         <Text
           style={{
             paddingVertical: SIZES.FIVE,

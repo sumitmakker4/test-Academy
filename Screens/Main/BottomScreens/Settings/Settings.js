@@ -252,7 +252,6 @@ export default function Settings() {
         backgroundColor: COLORS.WHITE,
         padding: SIZES.TWENTY,
       }}>
-      <StatusBar backgroundColor={color} />
       <TouchableOpacity onPress={showBottomSheet}>
         <Image
           style={{

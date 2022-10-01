@@ -59,7 +59,8 @@ export default function Home() {
             flexDirection: 'row',
             justifyContent: 'space-between',
             paddingHorizontal: SIZES.TEN,
-            paddingVertical: SIZES.TEN,
+            paddingTop: SIZES.TEN,
+            paddingBottom: SIZES.FIVE,
             backgroundColor: COLORS.WHITE,
             alignItems: 'center',
             height: animatedHeaderHeight,
@@ -159,6 +160,9 @@ export default function Home() {
           flex: 1,
           backgroundColor: COLORS.LIGHT_NATIVE,
           marginTop: SIZES.TEN,
+        }}
+        contentContainerStyle={{
+          paddingBottom: SIZES.SEVENTY_FIVE,
         }}
         onScroll={Animated.event(
           [{nativeEvent: {contentOffset: {y: scrollY}}}],

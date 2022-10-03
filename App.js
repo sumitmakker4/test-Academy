@@ -7,6 +7,10 @@ import BottomScreens from './Screens/Main/BottomScreens';
 import * as React from 'react';
 import {Test} from './Screens/Main/Test';
 import {Search} from './Screens/Main/Search';
+import EditDetails from './Screens/Main/BottomScreens/Settings/EditDetails';
+import {Ionicons} from '@expo/vector-icons';
+import {Text} from 'react-native';
+import {ViewProfilePic} from './Screens/Main/BottomScreens/Settings/ViewProfilePic';
 
 function App() {
   const Stack = createNativeStackNavigator();
@@ -39,6 +43,58 @@ function App() {
           options={{
             headerShown: false,
           }}
+        />
+        <Stack.Screen
+          name="ViewProfilePic"
+          component={ViewProfilePic}
+          options={({navigation}) => ({
+            headerLeft: () => (
+              <Ionicons
+                name={ICONS.back}
+                color={COLORS.TEXT_GREY}
+                size={SIZES.TWENTY_TWO}
+                onPress={() => navigation.goBack()}
+              />
+            ),
+            headerBackVisible: false,
+            headerTitleAlign: 'center',
+            headerTitle: () => (
+              <Text
+                style={{
+                  color: COLORS.BLACK,
+                  fontSize: SIZES.SIXTEEN,
+                  fontWeight: '500',
+                }}>
+                {CONSTANTS.PROFILE_PIC}
+              </Text>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="EditDetails"
+          component={EditDetails}
+          options={({navigation}) => ({
+            headerLeft: () => (
+              <Ionicons
+                name={ICONS.back}
+                color={COLORS.TEXT_GREY}
+                size={SIZES.TWENTY_TWO}
+                onPress={() => navigation.goBack()}
+              />
+            ),
+            headerBackVisible: false,
+            headerTitleAlign: 'center',
+            headerTitle: () => (
+              <Text
+                style={{
+                  color: COLORS.BLACK,
+                  fontSize: SIZES.SIXTEEN,
+                  fontWeight: '500',
+                }}>
+                {CONSTANTS.EDIT_DETAILS}
+              </Text>
+            ),
+          })}
         />
       </Stack.Navigator>
     );

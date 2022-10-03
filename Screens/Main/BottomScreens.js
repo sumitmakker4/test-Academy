@@ -11,12 +11,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {Pressable, StatusBar, Text, View} from 'react-native';
 import {setIsToEnable} from '../../app/notificationSlice';
 import React from 'react';
-import CONSTANTS from '../../MyAssets/CONSTANTS';
 
 export default function BottomScreens() {
   const Tab = createBottomTabNavigator();
-  const [selectedTab, setSelectedTab] = React.useState(CONSTANTS.HOME);
-
   const isNotificationEnabled = useSelector(
     state => state.notification.isEnabled,
   );
@@ -25,105 +22,83 @@ export default function BottomScreens() {
 
   return (
     <>
-      <View
-        style={{
-          flex: 1,
+      <Tab.Navigator
+        screenOptions={{
+          tabBarActiveTintColor: COLORS.WHITE,
+          tabBarLabelStyle: {fontSize: SIZES.TWELVE, fontWeight: '500'},
+          tabBarStyle: {
+            height: SIZES.SIXTY_FIVE,
+            borderRadius: SIZES.TWELVE,
+            backgroundColor: COLORS.PRIMARY_800,
+            paddingTop: SIZES.TEN,
+            elevation: SIZES.FIVE,
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingBottom: SIZES.TEN,
+          },
         }}>
-        {selectedTab == CONSTANTS.HOME && <Home />}
-        {selectedTab == CONSTANTS.MY_TESTS && <MyTests />}
-        {selectedTab == CONSTANTS.SETTINGS && isLoggedin && <Settings />}
-      </View>
-
-      <View
-        style={{
-          width: SIZES.width,
-          position: 'absolute',
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          bottom: 0,
-          backgroundColor: COLORS.PRIMARY_800,
-          elevation: SIZES.FIVE,
-          paddingHorizontal: SIZES.THIRTY,
-          paddingVertical: SIZES.TWELVE,
-          borderTopLeftRadius: SIZES.FIFTEEN,
-          borderTopRightRadius: SIZES.FIFTEEN,
-        }}>
-        <Pressable
-          style={{
-            paddingHorizontal: SIZES.FIVE,
-            alignItems: 'center',
+        <Tab.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color}) => (
+              <Ionicons
+                name={ICONS.homeOutline}
+                size={SIZES.TWENTY_TWO}
+                color={color}
+              />
+            ),
           }}
-          onPress={() => setSelectedTab(CONSTANTS.HOME)}>
-          <Ionicons
-            name={ICONS.homeOutline}
-            size={SIZES.TWENTY}
-            color={
-              selectedTab == CONSTANTS.HOME ? COLORS.WHITE : COLORS.TEXT_GREY
-            }
-          />
-          <Text
-            style={{
-              marginTop: SIZES.FIVE,
-              color:
-                selectedTab == CONSTANTS.HOME ? COLORS.WHITE : COLORS.TEXT_GREY,
-            }}>
-            {CONSTANTS.HOME}
-          </Text>
-        </Pressable>
-        <Pressable
-          style={{
-            paddingHorizontal: SIZES.FIVE,
-            alignItems: 'center',
+        />
+        <Tab.Screen
+          name="My Tests"
+          component={MyTests}
+          options={{
+            headerShown: false,
+            tabBarIcon: ({color}) => (
+              <Ionicons
+                name={ICONS.exam}
+                size={SIZES.TWENTY_TWO}
+                color={color}
+              />
+            ),
           }}
-          onPress={() => setSelectedTab(CONSTANTS.MY_TESTS)}>
-          <Ionicons
-            name={ICONS.exam}
-            size={SIZES.TWENTY}
-            color={
-              selectedTab == CONSTANTS.MY_TESTS
-                ? COLORS.WHITE
-                : COLORS.TEXT_GREY
-            }
-          />
-          <Text
-            style={{
-              marginTop: SIZES.FIVE,
-              color:
-                selectedTab == CONSTANTS.MY_TESTS
-                  ? COLORS.WHITE
-                  : COLORS.TEXT_GREY,
-            }}>
-            {CONSTANTS.MY_TESTS}
-          </Text>
-        </Pressable>
-        <Pressable
-          style={{
-            paddingHorizontal: SIZES.FIVE,
-            alignItems: 'center',
+        />
+        <Tab.Screen
+          name="Settings"
+          component={Settings}
+          options={{
+            headerTitleAlign: 'center',
+            headerRightContainerStyle: {
+              paddingEnd: SIZES.TEN,
+            },
+            headerRight: () => (
+              <Ionicons
+                name={
+                  !isNotificationEnabled
+                    ? ICONS.notification
+                    : ICONS.notificationOff
+                }
+                size={SIZES.TWENTY}
+                color={COLORS.TEXT_GREY}
+                onPress={() => {
+                  isNotificationEnabled
+                    ? dispatch(setIsToEnable(false))
+                    : dispatch(setIsToEnable(true));
+                }}
+              />
+            ),
+            tabBarIcon: ({color}) => (
+              <Ionicons
+                name={ICONS.settings}
+                size={SIZES.TWENTY_TWO}
+                color={color}
+              />
+            ),
           }}
-          onPress={() => setSelectedTab(CONSTANTS.SETTINGS)}>
-          <Ionicons
-            name={ICONS.settings}
-            size={SIZES.TWENTY}
-            color={
-              selectedTab == CONSTANTS.SETTINGS
-                ? COLORS.WHITE
-                : COLORS.TEXT_GREY
-            }
-          />
-          <Text
-            style={{
-              marginTop: SIZES.FIVE,
-              color:
-                selectedTab == CONSTANTS.SETTINGS
-                  ? COLORS.WHITE
-                  : COLORS.TEXT_GREY,
-            }}>
-            {CONSTANTS.SETTINGS}
-          </Text>
-        </Pressable>
-      </View>
+        />
+      </Tab.Navigator>
     </>
   );
 }

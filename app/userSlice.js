@@ -4,7 +4,8 @@ const initialState = {
   userInfo: {
     name: 'Sumit Makker',
     email: 'sumitmakker4gmail.com',
-    profilePic: '',
+    profilePic:
+      'https://media.pitchfork.com/photos/62043c007db00b3b97548cb5/1:1/w_1000,h_1000,c_limit/Snoop%20Dogg.jpg',
   },
 };
 

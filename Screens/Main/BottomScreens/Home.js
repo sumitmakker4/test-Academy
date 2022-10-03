@@ -24,11 +24,12 @@ export default function Home() {
   const navigation = useNavigation();
 
   const scrollY = new Animated.Value(0);
+  const isOtp = false;
 
   const HeaderMaxHeight = 70;
   const HeaderMinHeight = 0;
 
-  const HeaderMaxMargin = 8;
+  const HeaderMaxMargin = SIZES.TEN;
   const HeaderMinMargin = 0;
 
   const animatedHeaderMargin = scrollY.interpolate({
@@ -42,14 +43,6 @@ export default function Home() {
     outputRange: [HeaderMaxHeight, HeaderMinHeight],
     extrapolate: 'clamp',
   });
-
-  React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
-  });
-
-  function handleBackButtonClick() {
-    BackHandler.exitApp();
-  }
 
   function RenderHeader() {
     return (

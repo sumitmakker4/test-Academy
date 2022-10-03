@@ -22,7 +22,7 @@ export default function RenderHorizontalItem({testInfo, width}) {
           paddingVertical: SIZES.EIGHT,
           justifyContent: 'center',
           marginTop: SIZES.FIFTEEN,
-          backgroundColor: COLORS.GREEN,
+          backgroundColor: COLORS.GREEN2,
           paddingHorizontal: SIZES.TWELVE,
           borderBottomLeftRadius: SIZES.FIFTEEN,
           borderBottomEndRadius: SIZES.FIFTEEN,

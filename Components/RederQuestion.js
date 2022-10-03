@@ -39,7 +39,7 @@ export default function RednerQuestion({item, index, moveToNext}) {
         style={{
           width: SIZES.width * 0.9,
           alignSelf: 'center',
-          marginTop: SIZES.FOURTY,
+          marginTop: SIZES.FORTY,
         }}
         contentContainerStyle={{
           paddingBottom: SIZES.height * 0.4,

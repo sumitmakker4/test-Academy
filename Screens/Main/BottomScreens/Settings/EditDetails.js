@@ -1,6 +1,6 @@
 import {Feather, Ionicons, MaterialIcons} from '@expo/vector-icons';
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
 import {
   Image,
   Keyboard,
@@ -11,14 +11,18 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {setUserInfo} from '../../../../app/userSlice';
 import BottomSheet from 'react-native-gesture-bottom-sheet';
 import COLORS from '../../../../MyAssets/COLORS';
 import CONSTANTS from '../../../../MyAssets/CONSTANTS';
 import ICONS from '../../../../MyAssets/ICONS';
 import SIZES from '../../../../MyAssets/SIZES';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 export default function EditDetails({navigation, route}) {
-  const [details, setDetails] = React.useState(null);
+  const [details, setDetails] = useState({});
+  const dispatch = useDispatch();
+  const nameRef = React.useRef();
   const bottomSheetRef = React.useRef();
 
   function showBottomSheet() {
@@ -34,10 +38,6 @@ export default function EditDetails({navigation, route}) {
       setDetails(route.params.details);
     }
   }, []);
-
-  function onNameChange(e) {
-    setDetails({...details, name: e});
-  }
 
   function RenderName() {
     return (
@@ -56,6 +56,7 @@ export default function EditDetails({navigation, route}) {
           {CONSTANTS.NAME}
         </Text>
         <TextInput
+          ref={nameRef}
           style={{
             color: COLORS.BLACK,
             fontWeight: '500',
@@ -66,8 +67,11 @@ export default function EditDetails({navigation, route}) {
             borderWidth: SIZES.TWO,
             borderRadius: SIZES.EIGHT,
           }}
+          placeholder={'Enter name here'}
+          onChangeText={e => {
+            setDetails({...details, name: e});
+          }}
           value={details.name}
-          onChangeText={onNameChange}
         />
       </View>
     );
@@ -143,6 +147,22 @@ export default function EditDetails({navigation, route}) {
     );
   }
 
+  async function openGallery() {
+    const result = await launchImageLibrary({quality: 1});
+    let uri = result.assets[0].uri;
+    setDetails({...details, profilePic: result.assets[0].uri});
+    dispatch(setUserInfo({...details, uri}));
+    hideBottomSheet();
+  }
+
+  async function openCamera() {
+    const result = await launchCamera({quality: 1});
+    let uri = result.assets[0].uri;
+    setDetails({...details, profilePic: result.assets[0].uri});
+    dispatch(setUserInfo({...details, uri}));
+    hideBottomSheet();
+  }
+
   return (
     <View
       style={{
@@ -153,8 +173,7 @@ export default function EditDetails({navigation, route}) {
           style={{
             flex: 1,
             backgroundColor: COLORS.WHITE,
-          }}
-          keyboardShouldPersistTaps="handled">
+          }}>
           <>
             <View
               style={{
@@ -174,8 +193,8 @@ export default function EditDetails({navigation, route}) {
               <Pressable
                 style={{
                   position: 'absolute',
-                  bottom: SIZES.FIVE,
-                  right: SIZES.TEN,
+                  bottom: SIZES.width * 0.02,
+                  right: SIZES.width * 0.01,
                   backgroundColor: COLORS.BLUE,
                   borderRadius: SIZES.CIRCLE_RADIUS,
                   padding: 6,
@@ -216,7 +235,8 @@ export default function EditDetails({navigation, route}) {
                     paddingVertical: SIZES.EIGHT,
                     marginTop: SIZES.TEN,
                     alignItems: 'center',
-                  }}>
+                  }}
+                  onPress={() => openGallery()}>
                   <Ionicons
                     name={ICONS.picture}
                     size={SIZES.TWENTY_FIVE}
@@ -236,7 +256,8 @@ export default function EditDetails({navigation, route}) {
                     flexDirection: 'row',
                     paddingVertical: SIZES.EIGHT,
                     alignItems: 'center',
-                  }}>
+                  }}
+                  onPress={openCamera}>
                   <Ionicons
                     name={ICONS.camera_outline}
                     size={SIZES.TWENTY_FIVE}
@@ -275,7 +296,7 @@ export default function EditDetails({navigation, route}) {
                 </TouchableOpacity>
               </View>
             </BottomSheet>
-            {details.name != route.params.details.name && (
+            {details != route.params.details && (
               <TouchableOpacity
                 style={{
                   padding: SIZES.EIGHT,

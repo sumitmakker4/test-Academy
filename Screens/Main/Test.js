@@ -14,7 +14,7 @@ import AlertDialog from '../../Components/AlertDialog';
 import _BackgroundTimer from 'react-native-background-timer';
 import {Ionicons} from '@expo/vector-icons';
 import React from 'react';
-import RednerQuestion from '../../Components/RederQuestion';
+import RenderQuestion from '../../Components/RenderQuestion';
 import LinearGradient from 'react-native-linear-gradient';
 
 export function Test({navigation}) {
@@ -27,6 +27,7 @@ export function Test({navigation}) {
     isToShow: false,
     message: 'Times Up!',
     subMessage: 'Your test will be automatically submitted',
+    isToShowCancel: false,
   });
   const [color, setColor] = React.useState(COLORS.SECONDARY_800);
   const [pageNum, setPageNum] = React.useState(0);
@@ -46,24 +47,29 @@ export function Test({navigation}) {
       .join(':');
   }
 
-  React.useEffect(() => {
-    timer = _BackgroundTimer.setInterval(() => {
-      seconds--;
-      setTimeLeft(secondsToHms(seconds));
-      if (seconds < 5) {
-        setColor(current =>
-          current == COLORS.RED ? COLORS.SECONDARY_800 : COLORS.RED,
-        );
-        seconds == 0 && setColor(COLORS.RED);
-      } else {
-        setColor(COLORS.SECONDARY_800);
-      }
-      if (seconds == 0) {
-        _BackgroundTimer.clearInterval(timer);
-        setAlertRelated(current => ({...current, isToShow: true}));
-      }
-    }, 1000);
-  }, []);
+  // React.useEffect(() => {
+  //   timer = _BackgroundTimer.setInterval(() => {
+  //     seconds--;
+  //     setTimeLeft(secondsToHms(seconds));
+  //     if (seconds < 5) {
+  //       setColor(current =>
+  //         current == COLORS.RED ? COLORS.SECONDARY_800 : COLORS.RED,
+  //       );
+  //       seconds == 0 && setColor(COLORS.RED);
+  //     } else {
+  //       setColor(COLORS.SECONDARY_800);
+  //     }
+  //     if (seconds == 0) {
+  //       _BackgroundTimer.clearInterval(timer);
+  //       setAlertRelated({
+  //         isToShow: true,
+  //         message: 'Times Up!',
+  //         subMessage: 'Your test will be automatically submitted',
+  //         isToShowCancel: false,
+  //       });
+  //     }
+  //   }, 1000);
+  // }, []);
 
   React.useEffect(() => {
     flatRef?.current.scrollToIndex({index: pageNum, animated: true});
@@ -77,31 +83,42 @@ export function Test({navigation}) {
 
   function RenderHeader() {
     return (
-      <View
-        style={{
-          flex: 1,
-        }}>
+      <View>
         <Text
           style={{
-            paddingVertical: SIZES.FIVE,
             textAlign: 'center',
             backgroundColor: color,
             fontSize: SIZES.TWELVE,
             color: COLORS.WHITE,
             fontWeight: '500',
+            paddingVertical: SIZES.FIVE,
           }}>
           {timeLeft}
         </Text>
-        <Text
+        <View
           style={{
-            fontSize: SIZES.TWENTY_FIVE,
-            color: COLORS.DARK_GREY,
-            fontFamily: 'Aller_Bd',
-            alignSelf: 'center',
             marginTop: SIZES.THIRTY,
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row',
           }}>
-          IAS Exam
-        </Text>
+          <Text
+            style={{
+              fontSize: SIZES.TWENTY_FIVE,
+              color: COLORS.DARK_GREY,
+              fontFamily: 'Aller_Bd',
+              alignSelf: 'center',
+              marginEnd: SIZES.EIGHT,
+              marginBottom: SIZES.FIVE,
+            }}>
+            IAS Exam
+          </Text>
+          <Ionicons
+            name={ICONS.exam}
+            size={SIZES.TWENTY_FIVE}
+            color={COLORS.ORANGE}
+          />
+        </View>
       </View>
     );
   }
@@ -155,7 +172,16 @@ export function Test({navigation}) {
                 paddingHorizontal: SIZES.THIRTY + 10,
                 backgroundColor: COLORS.GREEN2,
                 borderRadius: SIZES.EIGHT,
-              }}>
+              }}
+              onPress={() =>
+                setAlertRelated({
+                  isToShow: true,
+                  message: 'Are you sure?',
+                  subMessage:
+                    'By clicking okay your test will be submitted and you will not be able to edit it',
+                  isToShowCancel: true,
+                })
+              }>
               <Text
                 style={{
                   color: COLORS.WHITE,
@@ -208,11 +234,11 @@ export function Test({navigation}) {
 
   return (
     <>
-      <LinearGradient
+      <View
         style={{
           flex: 1,
-        }}
-        colors={[COLORS.LIGHT_NATIVE, COLORS.WHITE]}>
+          backgroundColor: COLORS.WHITE,
+        }}>
         <RenderHeader />
 
         <View>
@@ -237,7 +263,7 @@ export function Test({navigation}) {
             showsHorizontalScrollIndicator={false}
             data={questions}
             renderItem={({item, index}) => (
-              <RednerQuestion
+              <RenderQuestion
                 key={`${index}${item.title}`}
                 item={item}
                 index={index}
@@ -246,12 +272,20 @@ export function Test({navigation}) {
             )}
           />
         </View>
-      </LinearGradient>
+      </View>
       {alertRelated.isToShow && (
         <AlertDialog
+          isToShowCancel={alertRelated.isToShowCancel}
           message={alertRelated.message}
           subMessage={alertRelated.subMessage}
           onPress={() => navigation.goBack()}
+          onCancelPressed={() =>
+            setAlertRelated({
+              ...alertRelated,
+              isToShow: false,
+              isToShowCancel: false,
+            })
+          }
         />
       )}
       {!alertRelated.isToShow && <RenderFooter />}

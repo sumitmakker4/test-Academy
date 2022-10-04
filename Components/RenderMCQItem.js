@@ -13,12 +13,11 @@ export default function RenderMCQItem({
   return (
     <Pressable
       style={{
-        elevation: SIZES.FIVE,
         paddingVertical: SIZES.TWENTY,
         paddingHorizontal: SIZES.FIFTEEN,
         borderWidth: !isSelected ? 1 : 0,
         borderColor: COLORS.MID_GREY,
-        borderRadius: SIZES.FIFTEEN,
+        borderRadius: SIZES.TWENTY,
         backgroundColor: !isSelected ? COLORS.WHITE : COLORS.DARK_GREY,
         justifyContent: 'center',
         marginBottom: SIZES.THIRTY,

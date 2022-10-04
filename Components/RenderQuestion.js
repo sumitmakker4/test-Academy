@@ -4,7 +4,7 @@ import COLORS from '../MyAssets/COLORS';
 import SIZES from '../MyAssets/SIZES';
 import RenderMCQItem from './RenderMCQItem';
 
-export default function RednerQuestion({item, index, moveToNext}) {
+export default function RenderQuestion({item, index, moveToNext}) {
   const [question, setQuestion] = React.useState(item);
 
   function setSelectedAnswer(answer) {

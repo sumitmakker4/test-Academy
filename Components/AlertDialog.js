@@ -2,7 +2,13 @@ import {View, Pressable, Text, TouchableOpacity} from 'react-native';
 import COLORS from '../MyAssets/COLORS';
 import SIZES from '../MyAssets/SIZES';
 
-export default function AlertDialog({message, subMessage, onPress}) {
+export default function AlertDialog({
+  message,
+  subMessage,
+  onPress,
+  isToShowCancel,
+  onCancelPressed,
+}) {
   return (
     <View
       style={{
@@ -46,21 +52,45 @@ export default function AlertDialog({message, subMessage, onPress}) {
           {subMessage}
         </Text>
 
-        <TouchableOpacity onPress={onPress}>
-          <Text
-            style={{
-              fontSize: SIZES.FIFTEEN,
-              paddingHorizontal: SIZES.THIRTY,
-              fontWeight: '500',
-              paddingVertical: SIZES.EIGHT,
-              marginTop: SIZES.TWENTY,
-              color: COLORS.WHITE,
-              borderRadius: SIZES.TWELVE,
-              backgroundColor: COLORS.PRIMARY_800,
-            }}>
-            Okay
-          </Text>
-        </TouchableOpacity>
+        <View
+          style={{
+            width: SIZES.EIGHTY_PERCENT,
+            flexDirection: 'row',
+            justifyContent: isToShowCancel ? 'space-between' : 'center',
+          }}>
+          {isToShowCancel && (
+            <TouchableOpacity onPress={onCancelPressed}>
+              <Text
+                style={{
+                  fontSize: SIZES.FIFTEEN,
+                  paddingHorizontal: SIZES.THIRTY,
+                  fontWeight: '500',
+                  paddingVertical: SIZES.EIGHT,
+                  marginTop: SIZES.TWENTY,
+                  color: COLORS.WHITE,
+                  borderRadius: SIZES.TWELVE,
+                  backgroundColor: COLORS.BLUE,
+                }}>
+                Cancel
+              </Text>
+            </TouchableOpacity>
+          )}
+          <TouchableOpacity onPress={onPress}>
+            <Text
+              style={{
+                fontSize: SIZES.FIFTEEN,
+                paddingHorizontal: SIZES.THIRTY,
+                fontWeight: '500',
+                paddingVertical: SIZES.EIGHT,
+                marginTop: SIZES.TWENTY,
+                color: COLORS.WHITE,
+                borderRadius: SIZES.TWELVE,
+                backgroundColor: COLORS.PRIMARY_800,
+              }}>
+              Okay
+            </Text>
+          </TouchableOpacity>
+        </View>
       </Pressable>
     </View>
   );

@@ -66,15 +66,15 @@ export default function Home() {
             fontWeight: 'bold',
             color: COLORS.DARK_GREY,
           }}>
-          Hello Jonah
+          Hello Sumit
         </Text>
 
-        {!isLoggedIn ? (
+        {isLoggedIn ? (
           <Pressable onPress={() => navigation.navigate('Otp')}>
             <Text
               style={{
                 color: COLORS.PRIMARY_800,
-                fontWeight: 'bold',
+                fontWeight: '700',
                 marginEnd: SIZES.FIVE,
                 fontSize: SIZES.FIFTEEN,
               }}>
@@ -221,7 +221,7 @@ export default function Home() {
             marginBottom: SIZES.FIFTEEN,
           }}>
           {[1, 4, 6, 4, 3, 6, 3, 6, 3, 6, 4].map((item, index) => (
-            <RenderVerticalHomeTest testInfo={item} />
+            <RenderVerticalHomeTest testInfo={item} key={index + 'fdp'} />
           ))}
         </View>
       </ScrollView>

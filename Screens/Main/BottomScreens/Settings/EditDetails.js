@@ -37,45 +37,23 @@ export default function EditDetails({navigation, route}) {
     if (route.params) {
       setDetails(route.params.details);
     }
-  }, []);
+    console.log('fdsofj');
+  }, [route]);
 
-  function RenderName() {
-    return (
-      <View
-        style={{
-          width: SIZES.NINTY_PERCENT,
-          alignSelf: 'center',
-          marginTop: SIZES.ADD_HEIGHT,
-        }}>
-        <Text
-          style={{
-            color: COLORS.TEXT_GREY,
-            fontWeight: '500',
-            marginStart: SIZES.FIVE,
-          }}>
-          {CONSTANTS.NAME}
-        </Text>
-        <TextInput
-          ref={nameRef}
-          style={{
-            color: COLORS.BLACK,
-            fontWeight: '500',
-            borderColor: COLORS.LINE_GREY,
-            paddingHorizontal: SIZES.FIFTEEN,
-            backgroundColor: COLORS.LIGHT_NATIVE,
-            marginTop: SIZES.EIGHT,
-            borderWidth: SIZES.TWO,
-            borderRadius: SIZES.EIGHT,
-          }}
-          placeholder={'Enter name here'}
-          onChangeText={e => {
-            setDetails({...details, name: e});
-          }}
-          value={details.name}
-        />
-      </View>
-    );
+  function setInfo(e) {
+    setDetails({...details, name: e});
   }
+
+  function save() {
+    dispatch(setUserInfo({...details, profilePic: details.profilePic}));
+    navigation.goBack();
+  }
+
+  // function RenderName() {
+  //   return (
+
+  //   );
+  // }
 
   function RenderNumber() {
     return (
@@ -150,16 +128,14 @@ export default function EditDetails({navigation, route}) {
   async function openGallery() {
     const result = await launchImageLibrary({quality: 1});
     let uri = result.assets[0].uri;
-    setDetails({...details, profilePic: result.assets[0].uri});
-    dispatch(setUserInfo({...details, uri}));
+    setDetails({...details, profilePic: uri});
     hideBottomSheet();
   }
 
   async function openCamera() {
     const result = await launchCamera({quality: 1});
     let uri = result.assets[0].uri;
-    setDetails({...details, profilePic: result.assets[0].uri});
-    dispatch(setUserInfo({...details, uri}));
+    setDetails({...details, profilePic: uri});
     hideBottomSheet();
   }
 
@@ -210,8 +186,40 @@ export default function EditDetails({navigation, route}) {
                 />
               </Pressable>
             </View>
-            <RenderName />
+
+            {/* Render Name layout */}
+            <View
+              style={{
+                width: SIZES.NINTY_PERCENT,
+                alignSelf: 'center',
+                marginTop: SIZES.ADD_HEIGHT,
+              }}>
+              <Text
+                style={{
+                  color: COLORS.TEXT_GREY,
+                  fontWeight: '500',
+                  marginStart: SIZES.FIVE,
+                }}>
+                {CONSTANTS.NAME}
+              </Text>
+              <TextInput
+                style={{
+                  color: COLORS.BLACK,
+                  fontWeight: '500',
+                  borderColor: COLORS.LINE_GREY,
+                  paddingHorizontal: SIZES.FIFTEEN,
+                  backgroundColor: COLORS.LIGHT_NATIVE,
+                  marginTop: SIZES.EIGHT,
+                  borderWidth: SIZES.TWO,
+                  borderRadius: SIZES.EIGHT,
+                }}
+                placeholder={'Enter name here'}
+                onChangeText={setInfo}
+                value={details.name}></TextInput>
+            </View>
+            {/* Render Number layout */}
             <RenderNumber />
+            {/* Render Email layout */}
             <RenderEmail />
             <BottomSheet ref={bottomSheetRef} height={220}>
               <View
@@ -306,7 +314,7 @@ export default function EditDetails({navigation, route}) {
                   alignSelf: 'center',
                   backgroundColor: COLORS.BLUE,
                 }}
-                onPress={() => navigation.goBack()}>
+                onPress={save}>
                 <Text
                   style={{
                     fontWeight: '500',

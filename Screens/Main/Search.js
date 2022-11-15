@@ -1,5 +1,7 @@
 import {View} from 'react-native';
 
-export function Search() {
+function Search() {
   return <View></View>;
 }
+
+export default Search;

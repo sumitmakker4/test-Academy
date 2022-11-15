@@ -4,7 +4,6 @@ import {
   TouchableOpacity,
   View,
   AppState,
-  BackHandler,
 } from 'react-native';
 import SIZES from '../../MyAssets/SIZES';
 import COLORS from '../../MyAssets/COLORS';

@@ -2,7 +2,7 @@ import {Image} from 'react-native';
 import {useSelector} from 'react-redux';
 import SIZES from '../../../../MyAssets/SIZES';
 
-export function ViewProfilePic() {
+function ViewProfilePic() {
   return (
     <Image
       style={{
@@ -14,3 +14,5 @@ export function ViewProfilePic() {
     />
   );
 }
+
+export default ViewProfilePic;

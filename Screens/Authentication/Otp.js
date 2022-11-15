@@ -10,7 +10,6 @@ import {
   BackHandler,
 } from 'react-native';
 import {setIsAuthenticated} from '../../app/authSlice';
-import {LogBox} from 'react-native';
 import CONSTANTS from '../../MyAssets/CONSTANTS';
 import SIZES from '../../MyAssets/SIZES';
 import {useDispatch} from 'react-redux';
@@ -20,8 +19,6 @@ import DUMMY_DATA from '../../MyAssets/DUMMY_DATA';
 import AlertDialog from '../../Components/AlertDialog';
 
 export default function Otp({navigation}) {
-  LogBox.ignoreAllLogs();
-
   const countryCode = '+91';
   const otpRef = React.useRef();
   const [otp, setOtp] = React.useState('');
@@ -34,6 +31,16 @@ export default function Otp({navigation}) {
   const [buttonTitle, setButtonTitle] = React.useState(CONSTANTS.NEXT);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButtonClick);
+
+    return () =>
+      BackHandler.removeEventListener(
+        'hardwareBackPress',
+        handleBackButtonClick,
+      );
+  }, [BackHandler]);
+
   function handleBackButtonClick() {
     if (isOtpSent) {
       flatListRef.current.scrollToIndex({
@@ -42,10 +49,10 @@ export default function Otp({navigation}) {
       });
       setButtonTitle(CONSTANTS.NEXT);
       setIsOtpSent(false);
+      console.log('riewfhjreiw');
     } else {
       navigation.goBack();
     }
-    return true;
   }
 
   function onButtonPressed() {
